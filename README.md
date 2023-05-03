@@ -1,4 +1,4 @@
-# Calculate Almond Yield and Create a Profit Model
+<h1 align="center"> Calculate Almond Yield and Create a Profit Model<h1>
 
 ## Project Motivation
 
