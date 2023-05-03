@@ -21,6 +21,7 @@ For this assignment provided in our EDS 230 Environmental Modeling class, the go
 - almond_yield_function.R: Almond yield as a function to calculate the anomaly in acres per ton
 - profit_model.R: Profit model function for almond yield anomaly
 - clim.txt: The dataset used to conduct analysis
+- EDS230_Diagram.pdf: An initial diagram of the almond yield anomaly model
   
   ## Collaborators 
 If you have any questions, comments, or concerns, please reach out to a team member using the information below:
