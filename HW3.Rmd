@@ -1,0 +1,86 @@
+---
+title: "HW3"
+author: "Amritpal Sandhu, Elise Gonzales"
+date: "2023-05-01"
+output: html_document
+---
+
+# Example usage of the profit model
+
+```{r, message = FALSE, warning = FALSE}
+# Load libraries 
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(gridExtra)
+library(ggpubr)
+library(purrr)
+library(knitr)
+
+```
+
+```{r}
+#Read in the data
+climate_data <- read.table("clim.txt", sep = " ", header = TRUE) 
+
+```
+
+```{r}
+# Read in the function using source
+source(here::here("profit_model.R"))
+```
+
+```{r, message=FALSE}
+# Test the model
+almond_profit(climate_data)
+```
+
+
+```{r}
+# Generate samples for both parameters
+nsamples = 300
+deviation = 0.15
+base_price = 10000
+cost_of_production = runif(min=base_price - deviation * base_price,
+                           max = base_price + deviation * base_price, n=nsamples)
+
+temp_min_constant_1 = rnorm(mean = -0.015, sd = 0.1, n=nsamples)
+
+parms = cbind.data.frame(cost_of_production, temp_min_constant_1)
+
+```
+
+
+```{r, message=FALSE}
+# pmap to apply profit function
+results = parms %>% pmap(climate_data = climate_data,
+                         almond_profit,
+                         market_price = 4036, 
+                         temp_min_constant_2 = -0.0046, 
+                         precip_constant_1 = -.07, 
+                         precip_constant_2 = 0.0043, 
+                         constant = 0.28) |> invisible()
+
+results[[1]]
+```
+
+```{r}
+# Extract results
+mean_profit <- map_df(results, `[`, c("mean_profit"))
+mean_profit <- cbind.data.frame(mean_profit, parms)
+
+```
+
+```{r}
+# Plot the results
+p1 <- ggplot(mean_profit, aes(cost_of_production, mean_profit, col = temp_min_constant_1)) + geom_point(cex = 2) +
+  labs(y = "Mean Profit (USD)", x = "Cost of production  \n of one ton of almonds")
+
+p2 <- ggplot(mean_profit, aes(temp_min_constant_1, mean_profit, col = cost_of_production)) + geom_point(cex = 2) +
+  labs(y = "Mean Profit (USD)", x = "Minimum Temperature Constant")
+
+
+grid.arrange(p1, p2)
+```
+
+**From the plot on the left, it appears that the cost of production for one ton of almonds is correlated with the overall profit. The plot on the right indicates that the minimum temperature constant is not correlated with the mean overall profit.**

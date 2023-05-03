@@ -1,0 +1,35 @@
+---
+title: "Homework 2 "
+author: "Amritpal Sandhu and Elise Gonzales"
+date: "2023-04-20"
+output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## Almond Yield
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Load libraries 
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+#Read in the data
+climate_data <- read.table("clim.txt", sep = " ", header = TRUE) 
+
+```
+
+```{r}
+# Read in the function using source
+source(here::here("almond_yield_function.R"))
+```
+
+```{r}
+# Compute results for the climate data 
+almond_model(climate_data)
+```
