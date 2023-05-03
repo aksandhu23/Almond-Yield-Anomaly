@@ -1,5 +1,7 @@
 <h1 align="center"> Calculate Almond Yield and Create a Profit Model<h1>
 
+![image](https://github.com/aksandhu23/Assignment2/blob/main/Almonds.jpg)
+
 ## Project Motivation
 
 For this assignment provided in our EDS 230 Environmental Modeling class, the goals were to:
